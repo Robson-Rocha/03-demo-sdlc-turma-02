@@ -17,7 +17,7 @@ public sealed class TrainingUpdateTests
             "C# Avançado",
             "Tópicos avançados de C#",
             "2026-09-16",
-            16);
+            4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{createdTraining.Id}", request);
 
@@ -36,7 +36,7 @@ public sealed class TrainingUpdateTests
     {
         using var factory = new TrainingCatalogApiFactory();
         using var client = factory.CreateClient();
-        var request = new CreateTrainingRequest("", "Descrição", "2026-09-15", 8);
+        var request = new CreateTrainingRequest("", "Descrição", "2026-09-15", 4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{Guid.NewGuid()}", request);
 
@@ -50,7 +50,7 @@ public sealed class TrainingUpdateTests
     {
         using var factory = new TrainingCatalogApiFactory();
         using var client = factory.CreateClient();
-        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", "2026-09-15", 8);
+        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", "2026-09-15", 4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{Guid.NewGuid()}", request);
 
@@ -64,7 +64,7 @@ public sealed class TrainingUpdateTests
         using var client = factory.CreateClient();
         var firstTraining = await CreateTraining(client, "2026-09-15");
         await CreateTraining(client, "2026-09-16");
-        var request = new CreateTrainingRequest("C# Avançado", "Tópicos avançados de C#", "2026-09-16", 16);
+        var request = new CreateTrainingRequest("C# Avançado", "Tópicos avançados de C#", "2026-09-16", 4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{firstTraining.Id}", request);
 
@@ -75,9 +75,33 @@ public sealed class TrainingUpdateTests
             error.RootElement.GetProperty("errors").GetProperty("startDate")[0].GetString());
     }
 
+    [Theory]
+    [InlineData(0, "A carga horária deve ser maior que zero.")]
+    [InlineData(-1, "A carga horária deve ser maior que zero.")]
+    [InlineData(5, "A carga horária não pode ser maior que 4 horas.")]
+    public async Task ReturnsBadRequestWhenDurationHoursIsOutOfRange(int durationHours, string expectedMessage)
+    {
+        using var factory = new TrainingCatalogApiFactory();
+        using var client = factory.CreateClient();
+        var createdTraining = await CreateTraining(client, "2026-09-15");
+        var request = new CreateTrainingRequest(
+            "C# Avançado",
+            "Tópicos avançados de C#",
+            "2026-09-16",
+            durationHours);
+
+        var response = await client.PutAsJsonAsync($"/api/trainings/{createdTraining.Id}", request);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        using var error = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+        Assert.Equal(
+            expectedMessage,
+            error.RootElement.GetProperty("errors").GetProperty("durationHours")[0].GetString());
+    }
+
     private static async Task<Training> CreateTraining(HttpClient client, string startDate)
     {
-        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", startDate, 8);
+        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", startDate, 4);
         var response = await client.PostAsJsonAsync("/api/trainings", request);
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);

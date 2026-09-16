@@ -37,7 +37,7 @@ public sealed class TrainingDeletionTests
             "Fundamentos de C#",
             "Introdução ao C#",
             "2026-09-15",
-            8);
+            4);
         var response = await client.PostAsJsonAsync("/api/trainings", request);
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);

@@ -15,7 +15,7 @@ public sealed class TrainingLifecycleTests
             "Fundamentos de C#",
             "Introdução ao C#",
             "2026-09-15",
-            8);
+            4);
 
         var creationResponse = await client.PostAsJsonAsync("/api/trainings", creationRequest);
 
@@ -34,7 +34,7 @@ public sealed class TrainingLifecycleTests
             "C# Avançado",
             "Tópicos avançados de C#",
             "2026-09-16",
-            16);
+            3);
         var updateResponse = await client.PutAsJsonAsync($"/api/trainings/{createdTraining.Id}", updateRequest);
 
         Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);

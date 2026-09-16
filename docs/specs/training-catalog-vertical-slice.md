@@ -38,7 +38,7 @@ Operações adicionais de API podem ser implementadas depois com contratos expl�
 | `title` | texto | obrigatório e não vazio |
 | `description` | texto | obrigatório e não vazio |
 | `startDate` | data no formato `YYYY-MM-DD` | obrigatória e exclusiva no catálogo |
-| `durationHours` | inteiro | obrigatório e maior que zero |
+| `durationHours` | inteiro | obrigatório, maior que zero e menor ou igual a quatro |
 
 ## Contrato da API para criação
 
@@ -93,10 +93,11 @@ Operações adicionais de API podem ser implementadas depois com contratos expl�
 2. Dada uma descrição ausente, quando o cadastro for enviado, então a API retorna `400` e identifica o campo `description`.
 3. Dada uma data de início ausente, quando o cadastro for enviado, então a API retorna `400` e identifica o campo `startDate`.
 4. Dada uma carga horária igual ou inferior a zero, quando o cadastro for enviado, então a API retorna `400` e identifica o campo `durationHours`.
-5. Dados válidos produzem `201`, um identificador e um recurso consultável depois da criação.
-6. Pela interface, dados válidos produzem confirmação e o novo item aparece na lista.
-7. Pela interface, uma falha preserva os dados preenchidos e apresenta mensagem útil.
-8. Dado um treinamento já cadastrado para uma data de início, quando outro treinamento for enviado com a mesma `startDate`, então a API retorna `409` e identifica o campo `startDate`, sem armazenar o segundo treinamento.
+5. Dada uma carga horária maior que quatro horas, quando o cadastro for enviado, então a API retorna `400` e identifica o campo `durationHours`.
+6. Dados válidos produzem `201`, um identificador e um recurso consultável depois da criação.
+7. Pela interface, dados válidos produzem confirmação e o novo item aparece na lista.
+8. Pela interface, uma falha preserva os dados preenchidos e apresenta mensagem útil.
+9. Dado um treinamento já cadastrado para uma data de início, quando outro treinamento for enviado com a mesma `startDate`, então a API retorna `409` e identifica o campo `startDate`, sem armazenar o segundo treinamento.
 
 ## Evidências esperadas
 
