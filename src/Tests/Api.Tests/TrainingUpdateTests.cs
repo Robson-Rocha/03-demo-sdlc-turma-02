@@ -77,6 +77,7 @@ public sealed class TrainingUpdateTests
 
     [Theory]
     [InlineData(0, "A carga horária deve ser maior que zero.")]
+    [InlineData(-1, "A carga horária deve ser maior que zero.")]
     [InlineData(5, "A carga horária não pode ser maior que 4 horas.")]
     public async Task ReturnsBadRequestWhenDurationHoursIsOutOfRange(int durationHours, string expectedMessage)
     {
