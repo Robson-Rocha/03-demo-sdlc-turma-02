@@ -59,6 +59,10 @@ app.MapPost("/api/trainings", async (CreateTrainingRequest request, TrainingCata
 	{
 		errors["durationHours"] = ["A carga horária deve ser maior que zero."];
 	}
+	else if (request.DurationHours > 4)
+	{
+		errors["durationHours"] = ["A carga horária não pode ser maior que 4 horas."];
+	}
 
 	if (errors.Count > 0)
 	{
@@ -242,6 +246,10 @@ app.MapPut("/api/trainings/{id:guid}", async (Guid id, CreateTrainingRequest req
 	if (request.DurationHours <= 0)
 	{
 		errors["durationHours"] = ["A carga horária deve ser maior que zero."];
+	}
+	else if (request.DurationHours > 4)
+	{
+		errors["durationHours"] = ["A carga horária não pode ser maior que 4 horas."];
 	}
 
 	if (errors.Count > 0)

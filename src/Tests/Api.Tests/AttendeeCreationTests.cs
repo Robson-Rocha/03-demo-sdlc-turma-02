@@ -115,7 +115,7 @@ public sealed class AttendeeCreationTests
 
 	private static async Task<Training> CreateTraining(HttpClient client, string startDate)
 	{
-		var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", startDate, 8);
+		var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", startDate, 4);
 		var response = await client.PostAsJsonAsync("/api/trainings", request);
 
 		Assert.Equal(HttpStatusCode.Created, response.StatusCode);

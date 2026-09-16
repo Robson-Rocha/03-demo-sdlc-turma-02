@@ -28,7 +28,7 @@
                                 <MudDatePicker @bind-Date="startDate" Label="Data de início" DateFormat="dd/MM/yyyy" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="A data de início é obrigatória." Error='@HasFieldError("startDate")' ErrorText='@GetFieldError("startDate")' Disabled="@isSubmitting" />
                             </MudItem>
                             <MudItem xs="12" sm="5">
-                                <MudNumericField @bind-Value="durationHours" Label="Carga horária" Variant="Variant.Outlined" Margin="Margin.Dense" Min="1" Required="true" RequiredError="A carga horária deve ser maior que zero." Error='@HasFieldError("durationHours")' ErrorText='@GetFieldError("durationHours")' Disabled="@isSubmitting" />
+                                <MudNumericField @bind-Value="durationHours" Label="Carga horária" Variant="Variant.Outlined" Margin="Margin.Dense" Min="1" Max="4" HelperText="Máximo de 4 horas." Required="true" RequiredError="A carga horária deve ser maior que zero." Error='@HasFieldError("durationHours")' ErrorText='@GetFieldError("durationHours")' Disabled="@isSubmitting" />
                             </MudItem>
                         </MudGrid>
 
